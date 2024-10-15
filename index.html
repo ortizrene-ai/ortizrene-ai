@@ -6,129 +6,103 @@
     <title>SDSU NLP Project: Chatbot</title>
     <style>
         body {
-            background-color: #e0f7fa; /* Light blue background */
+            background-color: lightblue;
             font-family: Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        h1 {
+            margin: 0;
+        }
+        img.logo {
+            height: 50px;
+        }
+        main {
+            text-align: center;
+            margin: 20px;
+        }
+        img.chatbot {
+            width: 150px;
+            height: auto;
+            margin-top: 10px;
+        }
+        form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
+            margin-top: 20px;
         }
-
-        h1 {
-            color: #007acc; /* Darker blue color for the title */
-            text-align: center;
-        }
-
-        p {
-            color: #333;
-            font-size: 18px;
-            text-align: center;
-        }
-
-        .input-container {
-            margin: 15px 0;
-        }
-
-        input[type="text"], textarea {
+        input[type="text"] {
             width: 300px;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #007acc;
-            border-radius: 5px;
+            padding: 8px;
+            margin: 10px 0;
         }
-
         button {
-            background-color: #007acc;
+            padding: 10px 20px;
+            background-color: darkblue;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
         }
-
         button:hover {
-            background-color: #005f8a;
+            background-color: navy;
         }
-
-        .footer {
-            font-size: 12px;
-            color: #555;
-            margin-top: 20px;
+        footer {
             text-align: center;
-        }
-
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 100px;
-        }
-
-        .chatbot-image {
-            display: block;
-            margin: 15px auto;
-            width: 200px;
-            height: auto;
+            margin-top: 40px;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <img src="usd-logo.png" alt="USD Logo" class="logo">
-    <h1>SDSU NLP Project: Chatbot</h1>
-    <img src="chatbot-image.gif" alt="Chatbot Image" class="chatbot-image">
-    <p>Hello, please ask me a question!</p>
-    <div class="input-container">
-        <input type="text" id="question" placeholder="Enter your question" /><br>
-        <textarea id="context" placeholder="Enter the context" rows="4"></textarea>
-    </div>
-    <button onclick="submitQuestion()">Submit Question</button>
-
-    <div class="footer">
+    <header>
+        <h1>SDSU NLP Project: Chatbot</h1>
+        <img src="usd-logo.png" alt="USD Logo" class="logo">
+    </header>
+    <main>
+        <p>Hello, please ask me a question!</p>
+        <img src="chatbot-image.gif" alt="Chatbot" class="chatbot">
+        <form id="chatbotForm">
+            <input type="text" id="question" placeholder="Enter your question" required>
+            <input type="text" id="context" placeholder="Enter the context" required>
+            <button type="submit">Submit Question</button>
+        </form>
+    </main>
+    <footer>
         Team 6: Vivian Peng, Karthik Raghavan & Rene Ortiz
-    </div>
+    </footer>
 
     <script>
-    async function submitQuestion() {
-        const question = document.getElementById('question').value;
-        const context = document.getElementById('context').value;
+        document.getElementById('chatbotForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const question = document.getElementById('question').value;
+            const context = document.getElementById('context').value;
 
-        const requestBody = {
-            question: question,
-            context: context
-        };
-
-        // Replace with your API Gateway URL
-        const apiGatewayUrl = 'https://p2ib7gu4bi.execute-api.us-east-2.amazonaws.com/Production';
-
-        try {
-            const response = await fetch(`${apiGatewayUrl}/chatbot-api-gateway`, {
+            fetch('https://p2ib7gu4bi.execute-api.us-east-2.amazonaws.com/Production', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify({
+                    question: question,
+                    context: context
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const parsedBody = JSON.parse(data.body);
+                alert(`Question: ${parsedBody.question}\nAnswer: ${parsedBody.answer}`);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
             });
-
-            const result = await response.json();
-
-            if (response.ok && result.statusCode === 200) {
-                // Parse the response body
-                const responseBody = JSON.parse(result.body);
-                const popupMessage = `Question: ${responseBody.question}\nAnswer: ${responseBody.answer}`;
-                alert(popupMessage);
-            } else {
-                alert('Error: Could not retrieve the answer. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while querying the API.');
-        }
-    }
-</script>
-
+        });
+    </script>
 </body>
 </html>
-
