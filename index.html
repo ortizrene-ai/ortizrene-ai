@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDSU NLP Project: Chatbot</title>
+    <style>
+        body {
+            background-color: #e0f7fa; /* Light blue background */
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #007acc; /* Darker blue color for the title */
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+        }
+
+        .input-container {
+            margin: 15px 0;
+        }
+
+        input[type="text"], textarea {
+            width: 300px;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #007acc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f8a;
+        }
+    </style>
+</head>
+<body>
+    <h1>SDSU NLP Project: Chatbot</h1>
+    <p>Hello, please ask me a question!</p>
+    <div class="input-container">
+        <input type="text" id="question" placeholder="Enter your question" /><br>
+        <textarea id="context" placeholder="Enter the context" rows="4"></textarea>
+    </div>
+    <button onclick="submitQuestion()">Submit Question</button>
+
+    <script>
+        function submitQuestion() {
+            const question = document.getElementById('question').value;
+            const context = document.getElementById('context').value;
+            alert(`Question: ${question}\nContext: ${context}`);
+            // You can replace this alert with the logic to submit the data to your backend.
+        }
+    </script>
+</body>
+</html>
