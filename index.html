@@ -104,7 +104,7 @@
             .then(response => response.json())
             .then(data => {
                 const parsedBody = JSON.parse(data.body);
-                alert(`Question: ${parsedBody.question}\nAnswer: ${parsedBody.answer}`);
+                alert(`Chatbot Response\n\nQuestion: ${parsedBody.question}\nAnswer: ${parsedBody.answer}`);
             })
             .catch(error => {
                 console.error('Error:', error);
