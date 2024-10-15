@@ -14,15 +14,18 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            position: relative;
         }
 
         h1 {
             color: #007acc; /* Darker blue color for the title */
+            text-align: center;
         }
 
         p {
             color: #333;
             font-size: 18px;
+            text-align: center;
         }
 
         .input-container {
@@ -49,16 +52,43 @@
         button:hover {
             background-color: #005f8a;
         }
+
+        .footer {
+            font-size: 12px;
+            color: #555;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+        }
+
+        .chatbot-image {
+            display: block;
+            margin: 15px auto;
+            width: 200px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>SDSU NLP Project: Chatbot</h1>
+    <img src="usd-logo.png" alt="USD Logo" class="logo">
+    <h1>USD NLP Project: Chatbot</h1>
+    <img src="chatbot-image.gif" alt="Chatbot Image" class="chatbot-image">
     <p>Hello, please ask me a question!</p>
     <div class="input-container">
         <input type="text" id="question" placeholder="Enter your question" /><br>
         <textarea id="context" placeholder="Enter the context" rows="4"></textarea>
     </div>
     <button onclick="submitQuestion()">Submit Question</button>
+
+    <div class="footer">
+        Team 6: Vivian Peng, Karthik Raghavan & Rene Ortiz
+    </div>
 
     <script>
         function submitQuestion() {
