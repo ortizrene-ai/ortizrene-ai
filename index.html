@@ -91,39 +91,44 @@
     </div>
 
     <script>
-        async function submitQuestion() {
-            const question = document.getElementById('question').value;
-            const context = document.getElementById('context').value;
+    async function submitQuestion() {
+        const question = document.getElementById('question').value;
+        const context = document.getElementById('context').value;
 
-            const requestBody = {
-                question: question,
-                context: context
-            };
+        const requestBody = {
+            question: question,
+            context: context
+        };
 
-            try {
-                const response = await fetch('https://p2ib7gu4bi.execute-api.us-east-2.amazonaws.com/Production/Sagemaker-API', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
+        // Replace with your API Gateway URL
+        const apiGatewayUrl = 'https://p2ib7gu4bi.execute-api.us-east-2.amazonaws.com/Production';
 
-                const result = await response.json();
+        try {
+            const response = await fetch(`${apiGatewayUrl}/Sagemaker-API`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
 
-                if (response.ok && result.statusCode === 200) {
-                    const responseBody = JSON.parse(result.body);
-                    const popupMessage = `Question: ${responseBody.question}\nAnswer: ${responseBody.answer}`;
-                    alert(popupMessage);
-                } else {
-                    alert('Error: Could not retrieve the answer. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while querying the API.');
+            const result = await response.json();
+
+            if (response.ok && result.statusCode === 200) {
+                // Parse the response body
+                const responseBody = JSON.parse(result.body);
+                const popupMessage = `Question: ${responseBody.question}\nAnswer: ${responseBody.answer}`;
+                alert(popupMessage);
+            } else {
+                alert('Error: Could not retrieve the answer. Please try again.');
             }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while querying the API.');
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
 
